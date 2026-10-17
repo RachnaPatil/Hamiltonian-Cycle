@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hamiltonian Cycle | DAA Project</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <a href="#home" class="logo">⬡ Hamiltonian Cycle</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+  <nav id="nav">
+    <a href="#home">Home</a><a href="#theory">Theory</a><a href="#algorithm">Algorithm</a>
+    <a href="#demo">Interactive Demo</a><a href="#examples">Examples</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-text">
+    <p class="tag">Design and Analysis of Algorithms</p>
+    <h1>Hamiltonian <span>Cycle</span></h1>
+    <p class="lead">A Hamiltonian cycle visits <b>every vertex exactly once</b> and then returns to the starting vertex. Learn the idea, see the backtracking algorithm, and try it on your own graphs.</p>
+    <a href="#demo" class="btn">Explore Interactive Demo</a>
+  </div>
+  <svg id="heroGraph" class="hero-graph" viewBox="0 0 500 420" aria-label="Sample graph with a Hamiltonian cycle"></svg>
+</section>
+
+<section id="theory" class="section">
+  <h2>Theory</h2>
+  <div class="grid">
+    <div class="card"><h3>Definition</h3>
+      <p>Imagine cities connected by roads. A <b>Hamiltonian cycle</b> is a round trip that visits every city exactly once and ends in the city where you started. Formally, it is a cycle in a graph G = (V, E) that contains every vertex of V exactly once.</p></div>
+    <div class="card"><h3>Path vs. Cycle</h3>
+      <p><b>Hamiltonian Path:</b> visits every vertex exactly once; start and end can differ.</p>
+      <p><b>Hamiltonian Cycle:</b> a Hamiltonian path whose last vertex is also connected back to the first vertex.</p>
+      <p>Every graph with a cycle has a path, but not the other way round.</p></div>
+    <div class="card"><h3>Real-World Applications</h3>
+      <ul><li>Delivery and route planning (Travelling Salesman Problem)</li><li>Circuit board drilling and wiring</li><li>DNA fragment sequencing</li><li>Scheduling and tour design</li></ul></div>
+    <div class="card"><h3>Time Complexity</h3>
+      <p>Backtracking tries vertex orderings, so in the worst case it explores about <b>(n − 1)!</b> arrangements, written as <b class="big">O(n!)</b>. The problem is NP-complete, so no known fast algorithm exists for all graphs. Pruning (skipping used vertices and non-edges) makes it faster in practice.</p></div>
+  </div>
+</section>
+
+<section id="algorithm" class="section alt">
+  <h2>Algorithm: Backtracking</h2>
+  <div class="grid two">
+    <pre class="code" aria-label="Pseudocode">HamiltonianCycle(G, n):
+  path[0] ← vertex 0       // fix the start
+  visited[0] ← true
+  return Solve(1)
+
+Solve(pos):
+  if pos = n:
+      return G[path[n-1]][path[0]] = 1
+  for v ← 1 to n-1:
+      if not visited[v] and G[path[pos-1]][v] = 1:
+          path[pos] ← v;  visited[v] ← true
+          if Solve(pos + 1) then return true
+          visited[v] ← false             // backtrack
+  return false</pre>
+    <div class="card"><h3>How it works</h3>
+      <ol><li>Start at vertex A (a cycle can start anywhere).</li>
+      <li>Pick an unvisited neighbour of the last vertex and add it to the path.</li>
+      <li>Repeat until all n vertices are placed.</li>
+      <li>If the last vertex connects back to A, a cycle is found.</li>
+      <li>If stuck, remove the last vertex (backtrack) and try another neighbour.</li>
+      <li>If every option fails, no Hamiltonian cycle exists.</li></ol>
+      <div class="chips"><span>Time: O(n!)</span><span>Space: O(n)</span></div>
+      <p class="small">Space: the path, visited array and recursion stack each use O(n) (the adjacency matrix itself is O(n²)).</p></div>
+  </div>
+</section>
+
+<section id="demo" class="section">
+  <h2>Interactive Hamiltonian Cycle Finder</h2>
+  <div class="demo">
+    <div class="panel">
+      <label for="preset">Choose a graph</label>
+      <select id="preset"></select>
+      <label for="matrix">Adjacency matrix (0/1, one row per line)</label>
+      <textarea id="matrix" rows="8" spellcheck="false"></textarea>
+      <button class="btn small" id="applyBtn">Apply Matrix</button>
+      <p class="small">Tip: click one vertex, then another, to add or remove an edge.</p>
+      <div id="error" class="error" role="alert" hidden></div>
+      <div class="row">
+        <button class="btn" id="findBtn">Find Hamiltonian Cycle</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
+      </div>
+      <div id="result" class="result" aria-live="polite">Select a graph and press “Find Hamiltonian Cycle”.</div>
+    </div>
+    <svg id="demoGraph" class="graph" viewBox="0 0 500 420" aria-label="Interactive graph"></svg>
+  </div>
+</section>
+
+<section id="examples" class="section alt">
+  <h2>Examples</h2>
+  <div class="grid examples">
+    <div class="card"><h3>Example 1: Has a cycle ✔</h3><svg id="ex1" viewBox="0 0 500 420"></svg><p id="ex1res" class="exres"></p>
+      <p>Vertices A–E form the outer ring A-B-C-D-E-A, so every vertex is used once and we return to A. The extra edge B–D is not needed.</p></div>
+    <div class="card"><h3>Example 2: No cycle ✘</h3><svg id="ex2" viewBox="0 0 500 420"></svg><p id="ex2res" class="exres"></p>
+      <p>D and E each have only one neighbour (A). A cycle needs every vertex to have at least two edges, so no cycle can pass through D or E.</p></div>
+    <div class="card"><h3>Example 3: Has a cycle ✔</h3><svg id="ex3" viewBox="0 0 500 420"></svg><p id="ex3res" class="exres"></p>
+      <p>This 6-vertex graph has a hexagon A-B-C-D-E-F-A plus chords. Chords give more choices, but the hexagon alone is enough.</p></div>
+    <div class="card"><h3>Example 4: Path only ✘</h3><svg id="ex4" viewBox="0 0 500 420"></svg><p id="ex4res" class="exres"></p>
+      <p>A-B-C-D is a Hamiltonian <i>path</i>, but D has just one edge, so it cannot return to A. A path exists; a cycle does not.</p></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <h3>Hamiltonian Cycle</h3>
+  <p>Subject: Design and Analysis of Algorithms (DAA)</p>
+  <p class="small">Disclaimer: This website is made for educational purposes as a college post-lab project. Demo graphs are limited to 10 vertices because the algorithm is O(n!).</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

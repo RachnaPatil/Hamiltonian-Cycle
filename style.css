@@ -1,0 +1,96 @@
+/* Hamiltonian Cycle – purple/blue theme */
+:root{--p:#7c3aed;--b:#2563eb;--grad:linear-gradient(135deg,#7c3aed,#2563eb);--bg:#f5f3ff;--ink:#1e1b4b;--card:#fff;--green:#10b981;--red:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+.header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:.9rem 5%;background:var(--grad);box-shadow:0 4px 18px rgba(79,70,229,.35)}
+.logo{color:#fff;font-weight:700;font-size:1.25rem;text-decoration:none}
+nav a{color:#e0e7ff;text-decoration:none;margin-left:1.4rem;font-weight:500;transition:.2s;padding-bottom:3px;border-bottom:2px solid transparent}
+nav a:hover,nav a.active{color:#fff;border-color:#fff}
+.menu-btn{display:none;background:none;border:0;color:#fff;font-size:1.6rem;cursor:pointer}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:4rem 5%;background:linear-gradient(160deg,#ede9fe,#dbeafe)}
+.tag{color:var(--p);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.85rem}
+h1{font-size:3.2rem;line-height:1.15;margin:.4rem 0 1rem}
+h1 span,h2{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.1rem;margin-bottom:1.6rem;max-width:520px}
+.btn{display:inline-block;background:var(--grad);color:#fff;border:0;padding:.8rem 1.5rem;border-radius:999px;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 6px 16px rgba(99,102,241,.4);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(99,102,241,.5)}
+.btn.small{padding:.5rem 1.1rem;font-size:.9rem;margin-top:.5rem}
+.btn.ghost{background:#fff;color:var(--p);border:2px solid var(--p);box-shadow:none}
+.section{padding:4rem 5%}.section.alt{background:#fff}
+h2{font-size:2.1rem;text-align:center;margin-bottom:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.grid.two{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card);border-radius:16px;padding:1.5rem;box-shadow:0 6px 24px rgba(76,29,149,.12);border-top:4px solid var(--p);transition:transform .25s,box-shadow .25s;animation:fade .6s both}
+.card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(76,29,149,.2)}
+.card h3{color:var(--p);margin-bottom:.6rem}
+.card p,.card li{margin-bottom:.5rem}.card ul,.card ol{padding-left:1.2rem}
+.big{color:var(--b);font-size:1.2rem}
+.small{font-size:.85rem;color:#4b5563}
+.chips span{display:inline-block;background:#ede9fe;color:var(--p);padding:.3rem .9rem;border-radius:999px;font-weight:600;margin:.4rem .4rem .6rem 0}
+.code{background:#1e1b4b;color:#c7d2fe;padding:1.3rem;border-radius:16px;overflow-x:auto;font:.9rem/1.6 Consolas,monospace;box-shadow:0 6px 24px rgba(30,27,75,.3)}
+.demo{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:1.5rem}
+.panel{background:#fff;border-radius:16px;padding:1.4rem;box-shadow:0 6px 24px rgba(76,29,149,.12)}
+label{display:block;font-weight:600;margin:.7rem 0 .3rem}
+select,textarea{width:100%;padding:.6rem;border:2px solid #ddd6fe;border-radius:10px;font:1rem Consolas,monospace;outline:0}
+select:focus,textarea:focus{border-color:var(--p)}
+.row{display:flex;gap:.7rem;flex-wrap:wrap;margin:1rem 0}
+.error{background:#fee2e2;color:#991b1b;padding:.6rem .9rem;border-radius:10px;margin-top:.6rem;font-size:.92rem}
+.result{padding:.9rem;border-radius:12px;background:#eef2ff;font-weight:600;word-break:break-word}
+.result.ok{background:#d1fae5;color:#065f46}.result.fail{background:#fee2e2;color:#991b1b}
+.graph,.hero-graph,.card svg{width:100%;height:auto;background:#fff;border-radius:16px}
+.graph{box-shadow:0 6px 24px rgba(76,29,149,.12)}
+.hero-graph{background:transparent}
+.exres{font-weight:700}
+/* graph drawing */
+.edge{stroke:#a5b4fc;stroke-width:3;stroke-linecap:round}
+.edge.hl{stroke:var(--green);stroke-width:6;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s forwards}
+.node circle{fill:#fff;stroke:var(--p);stroke-width:3;transition:.2s;cursor:pointer}
+.node:hover circle{fill:#ede9fe}
+.node text{font:700 18px "Segoe UI",sans-serif;fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node.hl circle{fill:var(--green);stroke:#047857}.node.hl text{fill:#fff}
+.node.sel circle{fill:#fde68a;stroke:#d97706}
+.badge{fill:var(--p)}.badge-t{font:700 11px sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central}
+footer{background:var(--grad);color:#e0e7ff;text-align:center;padding:2rem 5%}
+footer h3{color:#fff}footer .small{color:#c7d2fe;max-width:700px;margin:.5rem auto 0}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@media(max-width:800px){
+ .hero,.demo{grid-template-columns:1fr}h1{font-size:2.4rem}
+ .menu-btn{display:block}
+ nav{display:none;position:absolute;top:100%;left:0;right:0;background:#4c1d95;flex-direction:column;padding:1rem 5%}
+ nav.open{display:flex}nav a{margin:.5rem 0}
+ .grid.two{grid-template-columns:1fr}
+}
+
+/* ---------- Visual polish ---------- */
+.header,.hero,.section,footer{padding-left:max(5%,calc((100% - 1180px)/2));padding-right:max(5%,calc((100% - 1180px)/2))}
+.hero{position:relative;overflow:hidden;min-height:78vh;background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 40%,#2563eb 100%);color:#fff}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;animation:float 9s ease-in-out infinite alternate}
+.hero::before{width:380px;height:380px;background:#a78bfa;top:-100px;left:-80px}
+.hero::after{width:420px;height:420px;background:#38bdf8;bottom:-140px;right:5%}
+.hero>*{position:relative;z-index:1}
+.tag{color:#c4b5fd}
+h1{font-size:3.8rem;color:#fff}
+h1 span{background:linear-gradient(90deg,#fde68a,#f9a8d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:#e0e7ff;font-size:1.2rem}
+.hero .btn{background:#fff;color:#5b21b6;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.hero-graph{background:rgba(255,255,255,.95);border-radius:24px;box-shadow:0 20px 50px rgba(0,0,0,.35);padding:.5rem;animation:float 6s ease-in-out infinite alternate}
+.hero-graph .node circle{cursor:default}
+h2{position:relative;padding-bottom:.8rem}
+h2::after{content:"";display:block;width:70px;height:4px;border-radius:4px;background:var(--grad);margin:.6rem auto 0}
+.section{padding-top:5rem;padding-bottom:5rem}
+.section.alt{background:linear-gradient(180deg,#fff,#f5f3ff)}
+.grid.examples{grid-template-columns:repeat(2,1fr)}
+.card svg{background:#faf9ff;border:1px solid #ede9fe;margin:.4rem 0 .8rem}
+.code{font-size:.82rem;white-space:pre}
+.node>circle{r:24px;filter:drop-shadow(0 3px 5px rgba(76,29,149,.25))}
+.node text{font-size:19px}
+.badge{r:10px;fill:#f59e0b}
+.card svg .node>circle{r:26px}
+.card svg .node text{font-size:22px}
+.demo .btn.small{background:var(--grad);color:#fff}
+.panel{position:sticky;top:80px;align-self:start}
+@keyframes float{to{transform:translateY(-18px)}}
+@media(max-width:800px){h1{font-size:2.5rem}.hero{min-height:auto;padding-top:3rem}.grid.examples{grid-template-columns:1fr}.panel{position:static}}
+select{font:.9rem "Segoe UI",sans-serif;background:#fff}
